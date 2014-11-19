@@ -1,0 +1,75 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require pickadate/default
+ *= require pickadate/default.date
+ *= require toastr
+ *= require font-awesome
+ *= require icheck/square/blue
+ *= require rails_bootstrap_forms
+ *= require bootstrapValidator.min
+ *= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
+ *= require_tree .
+ */
+
+@import "bootstrap";
+
+html,
+body {
+  overflow-x: hidden!important;
+  font-family: 'Source Sans Pro', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100%;
+  background: #f2f2f2;
+}
+
+body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.navbar {
+  margin-bottom: 20px;
+}
+.navbar-default {
+  background: rgba(164,179,87,1);
+  background: -moz-linear-gradient(top, rgba(164,179,87,1) 0%, rgba(164,179,87,1) 0%, rgba(117,137,13,1) 99%, rgba(117,137,12,1) 100%);
+  background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(164,179,87,1)), color-stop(0%, rgba(164,179,87,1)), color-stop(99%, rgba(117,137,13,1)), color-stop(100%, rgba(117,137,12,1)));
+  background: -webkit-linear-gradient(top, rgba(164,179,87,1) 0%, rgba(164,179,87,1) 0%, rgba(117,137,13,1) 99%, rgba(117,137,12,1) 100%);
+  background: -o-linear-gradient(top, rgba(164,179,87,1) 0%, rgba(164,179,87,1) 0%, rgba(117,137,13,1) 99%, rgba(117,137,12,1) 100%);
+  background: -ms-linear-gradient(top, rgba(164,179,87,1) 0%, rgba(164,179,87,1) 0%, rgba(117,137,13,1) 99%, rgba(117,137,12,1) 100%);
+  background: linear-gradient(to bottom, rgba(164,179,87,1) 0%, rgba(164,179,87,1) 0%, rgba(117,137,13,1) 99%, rgba(117,137,12,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a4b357', endColorstr='#75890c', GradientType=0 );
+  border: 1px solid #59660d;
+}
+
+.navbar-default .navbar-brand {
+  color: #FFFFFF;
+  font-weight: 500;
+}
+
+.navbar-default .navbar-brand:hover {
+  color: #000000;
+}
+
+.icheckbox_square-blue, .iradio_square-blue {
+  margin-right: 6px !important;
+}
+
+
+.navbar-default .navbar-nav > li > a {
+    color: #FFFFFF;
+}
+
+.dropdown-menu > li > a:hover {
+  background-color: #808f1d;
+  color: #f9f9f9;
+}

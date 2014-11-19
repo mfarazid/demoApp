@@ -1,0 +1,104 @@
+/ Conditionally set remote: true. Also, passing model name as data attribute 
+- modal ||= false
+- remote = modal ? true : false 
+= bv_form_for(@user, remote: remote, html: {role: :form, 'data-model' => 'user', :class => "user"}) do |f|
+  - if @user.errors.any?
+    :javascript
+      var count = "Please resolve"+' '+  @user.errors.count  +' '+ "error before submitting your request." ;
+        Command: toastr.warning(count);    
+    - @user.errors.full_messages.each do |msg|
+      :javascript
+        toastr.options = {
+                "positionClass": "toast-bottom-right"
+              } 
+        Command: toastr.error("#{msg}");
+
+  = f.text_field :first_name
+  = f.text_field :last_name
+  = f.text_field :email
+  = f.text_field :birth_date, :class => 'dob'
+  = f.collection_check_boxes :role_ids, Role.all, :id, :name, label: "Choose User Roles"
+  = f.submit 'Submit', :class => 'btn btn-primary'
+:javascript
+
+
+  $(document).ready(function(){
+    var a = $('#user_birth_date').val();
+    console.log(a);
+    var maxYear= new Date().getFullYear()-10;
+    var minYear= new Date().getFullYear()-40;
+    $('.dob').pickadate({
+      format: 'mmmm dd, yyyy',
+      formatSubmit: 'yyyy/mm/dd',
+      hiddenPrefix: 'prefix__',
+      hiddenSuffix: '__suffix',
+      selectYears: true,
+      selectMonths: true,
+      selectYears: 40,
+      min: [minYear,1,1],
+      max: [maxYear,11,31],
+      onStart: function() {
+        if ($('.dob').val() !== "") {
+          var year = parseInt($('.dob').val().substr(0, 4), 10);
+          var month = parseInt($('.dob').val().substr(5, 2), 10);
+          var day = parseInt($('.dob').val().substr(8, 2), 10);
+          //months are zero indexed
+          formattedDate = moment(new Date(year,month-1,day)).format('LL');
+          $('.dob').val(formattedDate);    
+        }
+      }      
+    });
+
+
+    $('#users').dataTable(); 
+    $('input[type="checkbox"]').iCheck({
+        checkboxClass: 'icheckbox_square-blue'
+    }); 
+    $('#user_birth_date').change(function() {
+      $('form.user').bootstrapValidator('revalidateField', 'user[birth_date]');
+    });
+    // client-side validation
+    $('input[name="commit"]').click(function() {
+      validationSelect();
+    });
+    $('input[type="checkbox"]').on('ifChecked', function(event){
+      validationSelect();
+      $('form.user').bootstrapValidator('revalidateField', 'user[first_name]');
+    });
+
+    function validationSelect() {
+      var a = $('input[type="checkbox"]:checked').length;
+      if (a == '0') {
+        $('input[type="checkbox"]').each(function(){
+          $('.checkbox').addClass('has-error');
+        });      
+      }
+      else {
+        $('.checkbox').removeClass('has-error');
+        $('.checkbox').addClass('has-success');
+      }           
+    }
+
+    $('form.user')
+        .bootstrapValidator()
+          .on('success.form.bv', function(e) {
+              // Called when the form is valid
+              var $form = $(e.target);
+              if ($form.data('remote')) {
+                  e.preventDefault();
+                  return false;
+              }
+
+          })
+          .on('submit', function(e) {
+              var $form = $(e.target);
+              if ($form.data('remote')) {
+                  var numInvalidFields = $form.data('bootstrapValidator').getInvalidFields().length;
+                  if (numInvalidFields) {
+                      e.preventDefault();
+                      return false;
+                  }
+              }
+          });
+
+  });

@@ -1,0 +1,4 @@
+var jRow = "#{j render partial: 'table_row', locals: {user: @user }}";
+var table = $('#users').DataTable();
+table.row.add( [ "#{@user.first_name}", "#{@user.last_name}", "#{@user.email}", "#{@user.birth_date}", '<a class="btn btn-default btn-xs" data-remote="true" href="/users/#{@user.id}" title="View User">Show</a> <a class="btn btn-default btn-xs" href="/users/#{@user.id}/edit" title="Edit User">Edit</a> <a class="btn btn-default btn-xs" data-confirm="Are you sure?" data-method="delete" href="/users/#{@user.id}" rel="nofollow" title="Remove User">Destroy</a>' ] ).draw();
+$('#new_user_modal').modal_success();

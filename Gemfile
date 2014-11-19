@@ -1,0 +1,71 @@
+source 'https://rubygems.org'
+
+# ############################
+# Core
+# ############################
+gem 'rails', '4.0.2'
+gem 'thin'
+# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+gem 'jbuilder', '~> 1.2'
+
+
+# ############################
+# Interface
+# ############################
+group :assets do
+  gem 'sass-rails', '~> 4.0.0'
+  gem 'coffee-rails', '~> 4.0.0'
+  gem 'uglifier', '>= 1.3.0'
+  gem 'therubyracer', platforms: :ruby
+end
+gem 'jquery-rails'
+gem 'jquery-ui-rails','~> 4.2.1'
+gem 'haml'
+gem 'haml-rails'
+gem 'execjs'
+gem 'bootstrap-sass'
+gem 'bootstrap_form'
+# display nicer notifications using bootstrap 
+gem 'toastr-rails'
+gem 'font-awesome-rails'
+gem 'jquery-datatables-rails', '~> 2.1.10.0.2'
+gem 'lodash-rails'
+gem "nested_form"
+gem 'pickadate-rails'
+gem 'icheck-rails',  github: 'ricardodovalle/icheck-rails'
+gem 'bootstrap_validator_rails', '~> 1.1.0'
+gem 'simple_form', github: 'plataformatec/simple_form'
+gem 'sqlite3'
+# ############################
+# Testing
+# ############################
+group :development, :test do
+  gem 'rspec-rails'
+  gem "factory_girl_rails"
+  gem "capybara"
+  gem "faker"
+  gem 'rb-fsevent'
+  gem 'growl'  
+  gem 'database_cleaner'
+  gem 'launchy'
+  gem 'poltergeist'
+  gem 'spork'
+end
+
+# ############################
+# Utilities
+# ############################
+group :development do 
+  gem 'meta_request'
+  gem 'pry-rails'
+  gem 'rails-erd'
+  gem "better_errors"
+  gem "binding_of_caller"
+  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  gem 'spring'
+end
+
+group :doc do
+  # bundle exec rake doc:rails generates the API under doc/api.
+  gem 'sdoc', require: false
+end

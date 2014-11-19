@@ -1,0 +1,113 @@
+%h3.text-center Users
+= link_to 'New User', '#new_user_modal', 'data-toggle' => 'modal', :class => 'btn btn-success'
+#new_user_modal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} &times;
+        %h4#myModalLabel.modal-title Create new user
+      .modal-body
+        = render 'form', modal: true
+      .modal-footer
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+%br
+%br
+%table#users.table.table-striped.table-bordered
+  %thead
+    %tr
+      %th First name
+      %th Last name
+      %th Email
+      %th Birth Date
+      %th
+  %tbody    
+    - @users.each do |user|
+      = render partial: 'table_row', locals: {user: user}
+.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :id => "user_show", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} &times;
+        %h4#myModalLabel.modal-title User
+      .modal-body
+        
+      .modal-footer
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :id => "user_edit", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} &times;
+        %h4#myModalLabel.modal-title Edit User
+      .modal-body
+        
+      .modal-footer
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close                   
+%br
+:Javascript
+  $(document).ready(function(){
+    
+    $(document).bind('ajaxError', 'form.user', function(event, jqxhr, settings, exception){
+
+      // note: jqxhr.responseJSON undefined, parsing responseText instead
+      $(event.data).render_form_errors( $.parseJSON(jqxhr.responseText) );
+
+    });
+
+  });
+
+  (function($) {
+
+    $.fn.modal_success = function(){
+      // close modal
+      this.modal('hide');
+
+      // clear form input elements
+      // todo/note: handle textarea, select, etc
+      this.find('form input:text').val('');
+      this.find('form input:checkbox').iCheck('uncheck');
+
+      // clear error state
+      this.clear_previous_errors();
+      
+      toastr.options = {
+        "positionClass": "toast-bottom-right"
+      }              
+      Command: toastr.success('User was successfully created!');
+      // clear error success
+      this.clear_previous_success();
+      
+      // reload the current page in order to Datatable work properly.  
+      // location.reload();
+
+    };
+
+    $.fn.render_form_errors = function(errors){
+
+      $form = this;
+      this.clear_previous_errors();
+      model = this.data('model');
+
+      // show error messages in input form-group help-block
+      $.each(errors, function(field, messages){
+        $input = $('input[name="' + model + '[' + field + ']"]');
+        $input.closest('.form-group').addClass('has-error').find('.help-block').html( messages.join(' & ') );
+      });
+
+    };
+
+    $.fn.clear_previous_errors = function(){
+      $('.form-group.has-error', this).each(function(){
+        $('.help-block', $(this)).html('');
+        $(this).removeClass('has-error');
+      });
+    }
+
+    $.fn.clear_previous_success = function(){
+      $('.form-group.has-success', this).each(function(){
+        $(this).removeClass('has-success');
+        $('.checkbox').removeClass('has-success');
+      });
+    }
+  }(jQuery)); 
+
